@@ -1,3 +1,3 @@
 # Summary
 
-* [语法规范](spec.md)
+* [语言规范](spec.md)
