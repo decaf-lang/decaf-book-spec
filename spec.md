@@ -7,7 +7,7 @@
 
 ### 词法规范
 
-下面是Decaf的关键字，他们都是保留字：
+下面是Decaf的关键字，他们都是保留字（大小写敏感）：
 
 ```
 bool break class else extends for if int new null return string
@@ -40,7 +40,7 @@ valid string constant"
 
 ### 文法规范
 
-参考语法以一种类 Antlr 的 EBNF 形式给出，将用到下列元符号：
+参考语法以一种 EBNF 形式给出，将用到下列元符号：
 
 - `*` 表示一个符号出现任意多次，包括零次
 - `+` 表示一个符号出现至少一次
@@ -53,127 +53,72 @@ valid string constant"
 ```
 // Top level
 
-topLevel
-    : classDef*
-    ;
-
-classDef
-    : 'class' id ('extends' id)? '{' field* '}'
-    ;
-
-field
-    : varDef
-    | methodDef
-    ;
-
-varDef
-    : var ';'
-    ;
-
-methodDef
-    : 'static'? type id '(' varList ')' stmtBlock
-    ;
-
-var
-    : type id
-    ;
-
-varList
-    : var (',' var)*
-    | ε
-    ;
+topLevel    ::= classDef*
+classDef    ::= 'class' id ('extends' id)? '{' field* '}'
+field       ::= varDef | methodDef
+varDef      ::= var ';'
+methodDef   ::= 'static'? type id '(' varList ')' stmtBlock
+var         ::= type id
+varList     ::= var (',' var)* | ε
 
 // Types
 
-type
-    : 'int'
-    | 'bool'
-    | 'string'
-    | 'void'
-    | 'class' id
-    | type '[' ']'
-    ;
+type        ::= 'int' | 'bool' | 'string' | 'void' | 'class' id
+              | type '[' ']'
 
 // Statements
 
-stmt
-    : var ('=' expr)? ';'
-    | stmtBlock
-    | simple ';'
-    | 'if' '(' expr ')' stmt ('else' stmt)?
-    | 'while' '(' expr ')' stmt
-    | 'for' '(' simple ';' expr ';' simple ')' stmt
-    | 'break' ';'
-    | 'return' expr? ';'
-    | 'Print' '(' exprList ')' ';'
-    ;
+stmt        ::= simple ';'
+              | stmtBlock
+              | 'if' '(' expr ')' stmt ('else' stmt)?
+              | 'while' '(' expr ')' stmt
+              | 'for' '(' simple ';' expr ';' simple ')' stmt
+              | 'break' ';'
+              | 'return' expr? ';'
+              | 'Print' '(' exprList ')' ';'
 
-stmtBlock
-    : '{' stmt* '}'
-    ;
+simple      ::= var ('=' expr)? | lValue '=' expr | call | ε
+lValue      ::= (expr '.')? id | expr '[' expr ']'
+call        ::= (expr '.')? id '(' exprList ')'
 
-simple
-    : lValue '=' expr
-    | call
-    | ε
-    ;
-
-lValue
-    : (expr '.')? id
-    | expr '[' expr ']'
-    ;
-
-call
-    : (expr '.')? id '(' exprList ')'
-    ;
+stmtBlock   ::= '{' stmt* '}'
 
 // Expressions
 
-expr
-    : lit
-    | lValue
-    | call
-    | 'this'
-    | '(' expr ')'
-    | ('-'|'!') expr
-    | expr ('*'|'/'|'%'|'+'|'-'|'<='|'<'|'>='|'>'|'=='|'!='|'&&'|'||') expr
-    | '(' 'class' id ')' expr
-    | 'ReadInteger' '(' ')'
-    | 'ReadLine' '(' ')'
-    | 'new' id '(' ')'
-    | 'new' type '[' expr ']'
-    | 'instanceof' '(' expr ',' id ')'
-    ;
+expr        ::= lit
+              | lValue
+              | call
+              | 'this'
+              | '(' expr ')'
+              | unaryOp expr
+              | expr binaryOp expr
+              | '(' 'class' id ')' expr
+              | 'ReadInteger' '(' ')'
+              | 'ReadLine' '(' ')'
+              | 'new' id '(' ')'
+              | 'new' type '[' expr ']'
+              | 'instanceof' '(' expr ',' id ')'
 
-lit
-    : INT_LIT
-    | BOOL_LIT
-    | NULL_LIT
-    | STRING_LIT
-    ;
+lit         ::= INT_LIT | BOOL_LIT | NULL_LIT | STRING_LIT
+unaryOp     ::= '-' | '!'
+binaryOp    ::= '+' | '-' | '*' | '/' | '%' | '==' | '!=' | '<=' | '<' | '>=' | '>' | '&&' | '||'
+exprList    ::= expr (',' expr)* | ε
 
-exprList
-    : expr (',' expr)*
-    | ε
-    ;
-
-id
-    : IDENTIFIER
-    ;
+id          ::= IDENTIFIER
 ```
 
 算符的优先级从高到低如下：
 
 ```
-[ .		（数组索引和成员域选择）
-! -		（逻辑非，一元负号）
-* / %	（乘，除，求余）
-+ -		（加，减）
+[ .		    （数组索引和成员域选择）
+! -		    （逻辑非，一元负号）
+* / %	    （乘，除，求余）
++ -		    （加，减）
 < <= > >=	（关系运算）
-== !=	（判等操作）
-&&		（逻辑与）
-||		（逻辑或）
-=		（赋值）
+== !=	    （判等操作）
+&&		    （逻辑与）
+||		    （逻辑或）
+=		    （赋值）
 ```
 
 所有的二元算术操作符和二元逻辑操作符都是左结合的。赋值和关系操作符不结合（也就是说，你不能把具有同样优先级的这些操作符连着来用：a < b >= c或者a = b = c都不合法，但是a < b == c是可以的）。括号可以用于覆盖固有的优先级和结合性。
