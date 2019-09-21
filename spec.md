@@ -53,7 +53,7 @@ valid string constant"
 ```
 // Top level
 
-topLevel    ::= classDef*
+topLevel    ::= classDef+
 classDef    ::= 'class' id ('extends' id)? '{' field* '}'
 field       ::= varDef | methodDef
 varDef      ::= var ';'
@@ -68,8 +68,8 @@ type        ::= 'int' | 'bool' | 'string' | 'void' | 'class' id
 
 // Statements
 
-stmt        ::= simple ';'
-              | stmtBlock
+stmt        ::= stmtBlock
+              | simple ';'
               | 'if' '(' expr ')' stmt ('else' stmt)?
               | 'while' '(' expr ')' stmt
               | 'for' '(' simple ';' expr ';' simple ')' stmt
@@ -77,18 +77,17 @@ stmt        ::= simple ';'
               | 'return' expr? ';'
               | 'Print' '(' exprList ')' ';'
 
-simple      ::= var ('=' expr)? | lValue '=' expr | call | ε
-lValue      ::= (expr '.')? id | expr '[' expr ']'
-call        ::= (expr '.')? id '(' exprList ')'
-
 stmtBlock   ::= '{' stmt* '}'
+
+simple      ::= var ('=' expr)? | lValue '=' expr | expr | ε
+lValue      ::= (expr '.')? id | expr '[' expr ']'
 
 // Expressions
 
 expr        ::= lit
-              | lValue
-              | call
               | 'this'
+              | lValue
+              | (expr '.')? id '(' exprList ')'
               | '(' expr ')'
               | unaryOp expr
               | expr binaryOp expr
