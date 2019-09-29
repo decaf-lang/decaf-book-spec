@@ -13,6 +13,6 @@
   + PA1：语法分析器的自动构造
     - [阶段任务](impl-scala/PA1/index.md)
     - [词法分析](impl-scala/PA1/lexer.md)
+    - [抽象语法树](impl-scala/PA1/tree.md)
     - [文法分析](impl-scala/PA1/parser.md)
     - [访问者模式](impl-scala/PA1/visitor.md)
-    - [抽象语法树](impl-scala/PA1/tree.md)
