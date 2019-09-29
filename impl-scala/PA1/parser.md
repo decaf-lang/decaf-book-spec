@@ -48,19 +48,21 @@ expr[int pr] : id
 为了简化文法的描述，Antlr 允许我们直接用字符或字符串常量直接指代原来的单词，如用 `'.'` 指代单词 `DOT`，用 `'class'` 指代单词 `CLASS`。
 但是，使用未定义的常量是非法的，如在 Decaf 语言中未定义的单词 `'interface'`。
 
-## 语法树构造
+## AST 构造
 
 ### 用 Listener 还是 Visitor？
 
 Antlr 支持生成 `Listener` 和 `Visitor`。
 前者会自动生成一堆可以 hook 文法分析动作的监听器 (listener)，让用户可以在进入和退出某条特定产生式时执行特定的动作。
 在 Java 框架中选用的 Jacc 工具，大体就属于这一类。
-而后者会自动根据文法描述，为每个非终结符生成一个语法树结点（继承自 `ParserRuleContext`），为每个终结符生成一个 `TerminalNode` 类的结点，
+而后者会自动根据文法描述，为每个非终结符生成一个 CST 结点（继承自 `ParserRuleContext`），为每个终结符生成一个 `TerminalNode` 类的结点，
 同时生成 Java 社区喜闻乐见的访问者（visitor）接口。
-采用后者来实现语法树构造更加简单，因为我们只需自顶向下地访问 Antlr 生成的那棵树的每棵子树，然后把它们依次翻译到我们自己定义好的“真”语法树上。
+提示：如果你不知道“访问者模式”，请先阅读完下一节，再回来阅读后面的内容。
+
+采用后者来实现 AST 构造更加简单，因为 Antlr 实际上已经生成了 CST，我们的任务就是遍历 CST 生成 AST。
 其实 Decaf 编译器前端的每个阶段不都在重复着相同的故事吗？遍历一棵树，逐结点地翻译到该阶段所期望的输出形式（往往也是一棵树）——
-PA1 语法树，PA2 带类型标注的语法树，PA3 TAC 中间表示。
-这种设计方式和理念被很多现代编译器所推崇，如在 [Dotty](http://dotty.epfl.ch/) 编译器中，几乎所有阶段都统一采用树变换 (tree transformation)
+PA1 是 AST，PA2 是带类型标注的 AST，PA3 是 TAC。
+这种设计理念为许多现代编译器所推崇，如在 [Dotty](http://dotty.epfl.ch/) 编译器中，几乎所有阶段都统一采用树变换 (tree transformation)
 来实现——每个阶段的任务就是把一种语法树变换为另一种语法树。
 
 ### `ParserRuleContext`
@@ -87,6 +89,7 @@ public static class LValueVarContext extends LValueContext {
 
     @Override
     public <T> T accept(ParseTreeVisitor<? extends T> visitor) { /* code */ }
+}
 ```
 
 不难发现，文法中的 `expr` 对应于这里的 `expr()`，`id` 对应于这里的 `id()`，而终结符 `DOT` 对应于这里的 `DOT()`。
@@ -130,8 +133,7 @@ public static class LValueIndexContext extends LValueContext {
 
 ### 多访问者模式
 
-关于访问者模式 (visitor pattern) 的介绍和评论详见下一节。
-本节介绍在 `src/main/scala/decaf/frontend/parsing/Parser.scala` 中，如何用多访问者模式完成语法树的翻译。
+本节介绍在 `Parser.scala` 中，如何用多访问者模式完成语法树的翻译。
 
 Antlr 自动生成的访问者长成这样：
 
@@ -149,8 +151,10 @@ public class DecafParserBaseVisitor<T> extends AbstractParseTreeVisitor<T>
 }
 ```
 
-每个方法都访问一种类型的 `ParserRuleContext`，并返回某种类型 `T` 的值。但是在同一个访问者里面，这个 `T` 必须是同一个类型。
-这并不符合我们的需求：例如，当我们访问表达式的时候，应该构造出一个 `Expr` 结点；而访问语句的时候，应该构造出一个 `Stmt` 结点。
+每个方法都访问一种类型的 `ParserRuleContext`，并返回某种类型 `T` 的值。
+但是在同一个访问者里面，这个 `T` 必须是**同一**（或者它们有公共的上界，homogeneous）类型。
+这并不符合我们的需求：因为 AST 结点有好多种 (heterogenous) 类型。
+比如，当我们访问表达式的时候，应该构造出一个 `Expr` 结点；而访问语句的时候，应该构造出一个 `Stmt` 结点。
 但是，`Expr` 和 `Stmt` 显然谁也不是谁的子类型。如果我们要强行把它们写在一个访问者里面，返回类型不得不取成它们的最小公共上界 `Node`。
 这样会带来一个大问题：我们在用这些返回值构造更上层的语法树结点时，就不得不把 `Node` 再向下转型成 `Expr` 或者 `Stmt`：
 
@@ -161,7 +165,7 @@ val expr = e.asInstanceOf[Expr]
 val stmt = s.asInstanceOf[Stmt]
 ```
 
-这样非常丑陋。因此，我们将 `Expr` 和 `Stmt` 分开为两个独立的访问者，需要访问表达式时传入前者作为 `accept` 方法的参数，
+这样非常丑陋。因此，我们可以将 `Expr` 和 `Stmt` 分开为两个独立的访问者，需要访问表达式时传入前者作为 `accept` 方法的参数，
 需要访问语句时传入后者作为 `accept` 方法的参数，如：
 
 ```scala
