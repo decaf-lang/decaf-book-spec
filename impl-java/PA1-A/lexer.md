@@ -5,7 +5,7 @@
 
 ## 单词类型
 
-在 `src/main/jflex/Decaf.jflex` 中，我们将所有 Decaf 程序中可能出现的单词都定义出来了。分为以下几类：
+在 `Decaf.jflex` 中，我们将所有 Decaf 程序中可能出现的单词都定义出来了。分为以下几类：
 
 - 关键字：如 `class`
 - 操作符和分隔符：默认单字符的单词直接用其 ASCII 编码，因此该文件中只需定义那些含有两个或更多字符的操作符，如 `<=`
@@ -87,7 +87,7 @@ protected int stringConst(String value, Pos pos) {
 那么就正常把它加到 `buffer` 中。
 - 如果遇到非法的转义符 (模式为 `<S>{BAD_ESC}`)，如 `\a`，那么报错 `BadEscCharError`。
 
-在词法分析阶段，只有出现未识别的字符时才有必要紧急退出词法分析：
+在词法分析阶段，只有出现未识别的字符时才有必要紧急退出：
 
 ```jflex
 .                   { issueError(new UnrecogCharError(getPos(), yycharat(0)));      }
