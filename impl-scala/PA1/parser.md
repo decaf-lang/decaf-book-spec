@@ -131,11 +131,13 @@ public static class LValueIndexContext extends LValueContext {
 }
 ```
 
-### 多访问者模式
+### 多个访问者
 
-本节介绍在 `Parser.scala` 中，如何用多访问者模式完成语法树的翻译。
+本节介绍在 `Parser.scala` 中，如何用多个访问者来完成语法树的翻译。
+之所以我们决定采用多个访问者而不是一个，是因为只用一个访问者解决起来不优雅。
+我们先看看为什么会这样？
 
-Antlr 自动生成的访问者长成这样：
+首先，Antlr 自动生成的访问者长成这样：
 
 ```java
 public class DecafParserBaseVisitor<T> extends AbstractParseTreeVisitor<T>
@@ -153,20 +155,15 @@ public class DecafParserBaseVisitor<T> extends AbstractParseTreeVisitor<T>
 
 每个方法都访问一种类型的 `ParserRuleContext`，并返回某种类型 `T` 的值。
 但是在同一个访问者里面，这个 `T` 必须是**同一**（或者它们有公共的上界，homogeneous）类型。
-这并不符合我们的需求：因为 AST 结点有好多种 (heterogenous) 类型。
-比如，当我们访问表达式的时候，应该构造出一个 `Expr` 结点；而访问语句的时候，应该构造出一个 `Stmt` 结点。
-但是，`Expr` 和 `Stmt` 显然谁也不是谁的子类型。如果我们要强行把它们写在一个访问者里面，返回类型不得不取成它们的最小公共上界 `Node`。
-这样会带来一个大问题：我们在用这些返回值构造更上层的语法树结点时，就不得不把 `Node` 再向下转型成 `Expr` 或者 `Stmt`：
+这符合我们的需求吗？考虑到我们的 AST 结点有好多种 (heterogenous) 类型，那么这个 `T` 最小也得取成 `Node`。
+这样会带来一个大问题：我们在用类型为 `Node` 的返回值去构造更上层的 AST 结点时，就不得不把 `Node` 再向下转型，比如：
 
 ```scala
 val e: Node
-val s: Node
-val expr = e.asInstanceOf[Expr]
-val stmt = s.asInstanceOf[Stmt]
+e.asInstanceOf[Expr] // : Expr
 ```
 
-这样非常丑陋。因此，我们可以将 `Expr` 和 `Stmt` 分开为两个独立的访问者，需要访问表达式时传入前者作为 `accept` 方法的参数，
-需要访问语句时传入后者作为 `accept` 方法的参数，如：
+这样非常丑陋。一种可行的解决方案是，将不同类型的 AST 结点分开为独立的访问者，例如考虑 `Expr` 和 `Stmt`：
 
 ```scala
 object ExprVisitor extends DecafParserBaseVisitor[Expr] { /* code */ }
@@ -182,3 +179,5 @@ override def visitWhile(ctx: DecafParser.WhileContext): Stmt = positioned(ctx) {
   While(cond, body)
 }
 ```
+
+这样就无需向下转型。
