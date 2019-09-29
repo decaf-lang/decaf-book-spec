@@ -1,11 +1,11 @@
 # 文法分析
 
-Scala 框架的文法分析器由 Antlr 生成。
-Antlr 是一个基于 LL(*) 的构造工具，对其原理感兴趣的同学可以参考 [PLDI'11](https://www.antlr.org/papers/LL-star-PLDI11.pdf)。
+本框架的文法分析器仍然由 Antlr 生成，它基于 LL(*) 分析，对其原理感兴趣的同学可以参考
+[PLDI'11](https://www.antlr.org/papers/LL-star-PLDI11.pdf)。
 
 ## Antlr 中的优先级与结合性
 
-`src/main/antlr4/DecafLexer.g4` 文件包含了所有 Decaf 的文法。Antlr 的文法描述形式如同 EBNF，且支持 `?`/`+`/`*` 等常见的简写记号。
+`DecafLexer.g4` 文件包含了所有 Decaf 的文法。Antlr 的文法描述形式如同 EBNF，且支持 `?`/`+`/`*` 等常见的简写记号。
 关于这些记号的准确含义，请阅读[文档](https://github.com/antlr/antlr4/blob/master/doc/parser-rules.md#subrules)。
 
 Antlr 默认中缀运算符是**左结合**的。
@@ -50,11 +50,12 @@ expr[int pr] : id
 
 ## 语法树构造
 
-### Listener or Visitor?
+### 用 Listener 还是 Visitor？
 
 Antlr 支持生成 `Listener` 和 `Visitor`。
 前者会自动生成一堆可以 hook 文法分析动作的监听器 (listener)，让用户可以在进入和退出某条特定产生式时执行特定的动作。
-后者会自动根据文法描述，为每个非终结符生成一个语法树结点（继承自 `ParserRuleContext`），为每个终结符生成一个 `TerminalNode` 类的结点，
+在 Java 框架中选用的 Jacc 工具，大体就属于这一类。
+而后者会自动根据文法描述，为每个非终结符生成一个语法树结点（继承自 `ParserRuleContext`），为每个终结符生成一个 `TerminalNode` 类的结点，
 同时生成 Java 社区喜闻乐见的访问者（visitor）接口。
 采用后者来实现语法树构造更加简单，因为我们只需自顶向下地访问 Antlr 生成的那棵树的每棵子树，然后把它们依次翻译到我们自己定义好的“真”语法树上。
 其实 Decaf 编译器前端的每个阶段不都在重复着相同的故事吗？遍历一棵树，逐结点地翻译到该阶段所期望的输出形式（往往也是一棵树）——
@@ -62,7 +63,7 @@ PA1 语法树，PA2 带类型标注的语法树，PA3 TAC 中间表示。
 这种设计方式和理念被很多现代编译器所推崇，如在 [Dotty](http://dotty.epfl.ch/) 编译器中，几乎所有阶段都统一采用树变换 (tree transformation)
 来实现——每个阶段的任务就是把一种语法树变换为另一种语法树。
 
-### ParserRuleContext
+### `ParserRuleContext`
 
 一个 `ParserRuleContext` 包含了产生式中各符号所对应的语法元素（也是一个 `ParserRuleContext` 或者 `TerminalNode`）。例如，文法
 
