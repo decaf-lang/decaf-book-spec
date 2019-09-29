@@ -1,11 +1,11 @@
 # 词法分析
 
 在词法分析阶段，输入的文本会被解析为一个一个独立的单词 (token)，它们构成的单词流 (token stream) 将作为文法分析器的输入。
-本阶段我们采用 Antlr 来自动构建词法分析器。为此，我们需要将词法规范用 Antlr 可识别的语法表达出来，如 `src/main/antlr4/DecafLexer.g4`。
+本阶段我们采用 [Antlr](https://www.antlr.org) 来自动构建词法分析器。为此，我们需要将词法规范用 Antlr 可识别的语法表达出来。
 
 ## 单词类型
 
-在 `src/main/antlr4/DecafLexer.g4` 中，我们将所有 Decaf 程序中可能出现的单词都定义出来了。分为以下几类：
+在 `DecafLexer.g4` 中，我们将所有 Decaf 程序中可能出现的单词都定义出来了。分为以下几类：
 
 - 关键字：如 `class`
 - 操作符：算术、逻辑等操作符，如 `+`
@@ -69,8 +69,7 @@ UNTERM_STRING:      EOF -> popMode;
 ```
 
 我们引入这个特别的单词 `UNTERM_STRING` 来刻画这种情形。但是，Antlr 似乎并不能在读到 EOF 的时候产生一个 `UNTERM_STRING`。
-为此，我们不得不在 `src/main/scala/decaf/frontend/parsing/Lexer.scala` 重写 `emitEOF` 方法以魔改默认生成的单词。
-详情请见代码注释。
+为此，我们不得不在 `Lexer.scala` 重写 `emitEOF` 方法以魔改默认生成的单词。详情请见代码注释。
 
 更多 Antlr 词法规则的描述请参见[文档](https://github.com/antlr/antlr4/blob/master/doc/lexer-rules.md)。
 
