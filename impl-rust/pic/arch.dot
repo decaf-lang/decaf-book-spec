@@ -1,0 +1,66 @@
+digraph dependencies {
+	subgraph cluster_0 {
+			N0 N6 N7 N8 N9 N14 N15 N16 N17 
+      label = "Compiler";
+      color=blue;
+  }
+	subgraph cluster_1 {
+			N23 N27 N28 N39 N40 N42
+			label = "Parser Genrator";
+      color=orange;
+  }
+
+	N0[label="driver"];
+	N6[label="codegen"];
+	N7[label="common"];
+	N8[label="tac"];
+	N9[label="tacopt"];
+	N14[label="print"];
+	N15[label="syntax"];
+	N16[label="tacgen"];
+	N17[label="typeck"];
+	N23[label="grammar-config"];
+	N27[label="lalr1-core"];
+	N28[label="ll1-core"];
+	N39[label="parser-gen"];
+	N40[label="re2dfa"];
+	N42[label="parser-macros"];
+	N0 -> N6[label=""];
+	N0 -> N7[label=""];
+	N0 -> N8[label=""];
+	N0 -> N9[label=""];
+	N0 -> N14[label=""];
+	N0 -> N15[label=""];
+	N0 -> N16[label=""];
+	N0 -> N17[label=""];
+	N6 -> N7[label=""];
+	N6 -> N8[label=""];
+	N6 -> N9[label=""];
+	N8 -> N7[label=""];
+	N9 -> N7[label=""];
+	N9 -> N8[label=""];
+	N14 -> N6[label=""];
+	N14 -> N7[label=""];
+	N14 -> N8[label=""];
+	N14 -> N9[label=""];
+	N14 -> N15[label=""];
+	N15 -> N7[label=""];
+	N15 -> N42[label=""];
+	N16 -> N7[label=""];
+	N16 -> N8[label=""];
+	N16 -> N15[label=""];
+	N17 -> N7[label=""];
+	N17 -> N15[label=""];
+	N27 -> N23[label=""];
+	N27 -> N28[label=""];
+	N28 -> N23[label=""];
+	N39 -> N23[label=""];
+	N39 -> N27[label=""];
+	N39 -> N28[label=""];
+	N39 -> N40[label=""];
+	N42 -> N23[label=""];
+	N42 -> N27[label=""];
+	N42 -> N28[label=""];
+	N42 -> N39[label=""];
+	N42 -> N40[label=""];
+}

@@ -1,0 +1,71 @@
+digraph {
+    node [shape=plain]
+    rankdir=LR;
+
+
+  a [label=<
+  <table border="0" cellborder="1" cellspacing="0">
+    <tr><td port="0" align="left">class A a</td></tr>
+    <tr><td port="1" align="left">+0 vtbl A</td></tr>
+    <tr><td port="2" align="left">+4 a.x</td></tr>
+    <tr><td port="3" align="left">+8 a.y</td></tr>
+  </table>>];
+
+
+  b [label=<
+  <table border="0" cellborder="1" cellspacing="0">
+    <tr><td port="0" align="left">class B b</td></tr>
+    <tr><td port="1" align="left">+0 vtbl B</td></tr>
+    <tr><td port="2" align="left">+4 b.x</td></tr>
+    <tr><td port="3" align="left">+8 b.y</td></tr>
+    <tr><td port="4" align="left">+12 b.z</td></tr>
+  </table>>];
+
+  va [label=<
+  <table border="0" cellborder="1" cellspacing="0">
+    <tr><td port="0" align="left">vtbl A</td></tr>
+    <tr><td port="1" align="left">+0 NULL</td></tr>
+    <tr><td port="2" align="left">+4 "A"</td></tr>
+    <tr><td port="3" align="left">+8 A.f1()</td></tr>
+    <tr><td port="4" align="left">+12 A.f2()</td></tr>
+  </table>>];
+
+  vb [label=<
+  <table border="0" cellborder="1" cellspacing="0">
+    <tr><td port="0" align="left">vtbl B</td></tr>
+    <tr><td port="1" align="left">+0 vtbl A </td></tr>
+    <tr><td port="2" align="left">+4 "B"</td></tr>
+    <tr><td port="3" align="left">+8 B.f1()</td></tr>
+    <tr><td port="4" align="left">+12 A.f2()</td></tr>
+    <tr><td port="5" align="left">+16 B.f3()</td></tr>
+  </table>>];
+
+  af1 [label=<
+  <table border="0" cellborder="1" cellspacing="0">
+    <tr><td port="0" align="left">A.f1()</td></tr>
+  </table>>];
+
+  af2 [label=<
+  <table border="0" cellborder="1" cellspacing="0">
+    <tr><td port="0" align="left">A.f2()</td></tr>
+  </table>>];
+
+  bf1 [label=<
+  <table border="0" cellborder="1" cellspacing="0">
+    <tr><td port="0" align="left">B.f1()</td></tr>
+  </table>>];
+
+  bf3 [label=<
+  <table border="0" cellborder="1" cellspacing="0">
+    <tr><td port="0" align="left">B.f3()</td></tr>
+  </table>>];
+
+  a:1 -> va:0;
+  b:1 -> vb:0;
+  vb:1 -> va:0;
+  va:3 -> af1;
+  va:4 -> af2;
+  vb:3 -> bf1;
+  vb:4 -> af2; 
+  vb:5 -> bf3;
+}

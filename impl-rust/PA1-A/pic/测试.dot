@@ -1,0 +1,16 @@
+digraph {
+  rankdir=LR;
+
+  0 -> 1 [label="230u8"];
+  0[shape=doublecircle, label="0\nacc:0"]
+  1 -> 2 [label="181u8"];
+  1[shape=circle, label="1"]
+  2 -> 3 [label="139u8"];
+  2[shape=circle, label="2"]
+  3 -> 4 [label="232u8"];
+  3[shape=circle, label="3"]
+  4 -> 5 [label="175u8"];
+  4[shape=circle, label="4"]
+  5 -> 0 [label="149u8"];
+  5[shape=circle, label="5"]
+}

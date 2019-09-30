@@ -1,0 +1,93 @@
+digraph {
+  0 -> 1 [label="Expr"];
+  0 -> 2 [label="-"];
+  0 -> 3 [label="("];
+  0 -> 4 [label="IntLit"];
+  0[shape=box, label="Expr ->.Expr + Expr,#/+/-/*///%\nExpr ->.Expr - Expr,#/+/-/*///%\nExpr ->.Expr * Expr,#/+/-/*///%\nExpr ->.Expr / Expr,#/+/-/*///%\nExpr ->.Expr % Expr,#/+/-/*///%\nExpr ->.- Expr,#/+/-/*///%\nExpr ->.( Expr ),#/+/-/*///%\nExpr ->.IntLit,#/+/-/*///%\n_Expr ->.Expr,#"]
+  1 -> 5 [label="+"];
+  1 -> 6 [label="-"];
+  1 -> 7 [label="*"];
+  1 -> 8 [label="/"];
+  1 -> 9 [label="%"];
+  1[shape=box, label="Expr -> Expr.+ Expr,#/+/-/*///%\nExpr -> Expr.- Expr,#/+/-/*///%\nExpr -> Expr.* Expr,#/+/-/*///%\nExpr -> Expr./ Expr,#/+/-/*///%\nExpr -> Expr.% Expr,#/+/-/*///%\n_Expr -> Expr.,#"]
+  2 -> 2 [label="-"];
+  2 -> 3 [label="("];
+  2 -> 4 [label="IntLit"];
+  2 -> 10 [label="Expr"];
+  2[shape=box, label="Expr ->.Expr + Expr,#/+/-/*///%/)\nExpr ->.Expr - Expr,#/+/-/*///%/)\nExpr ->.Expr * Expr,#/+/-/*///%/)\nExpr ->.Expr / Expr,#/+/-/*///%/)\nExpr ->.Expr % Expr,#/+/-/*///%/)\nExpr ->.- Expr,#/+/-/*///%/)\nExpr -> -.Expr,#/+/-/*///%/)\nExpr ->.( Expr ),#/+/-/*///%/)\nExpr ->.IntLit,#/+/-/*///%/)"]
+  3 -> 2 [label="-"];
+  3 -> 3 [label="("];
+  3 -> 4 [label="IntLit"];
+  3 -> 11 [label="Expr"];
+  3[shape=box, label="Expr ->.Expr + Expr,+/-/*///%/)\nExpr ->.Expr - Expr,+/-/*///%/)\nExpr ->.Expr * Expr,+/-/*///%/)\nExpr ->.Expr / Expr,+/-/*///%/)\nExpr ->.Expr % Expr,+/-/*///%/)\nExpr ->.- Expr,+/-/*///%/)\nExpr ->.( Expr ),+/-/*///%/)\nExpr -> (.Expr ),#/+/-/*///%/)\nExpr ->.IntLit,+/-/*///%/)"]
+  4[shape=box, label="Expr -> IntLit.,#/+/-/*///%/)"]
+  5 -> 2 [label="-"];
+  5 -> 3 [label="("];
+  5 -> 4 [label="IntLit"];
+  5 -> 12 [label="Expr"];
+  5[shape=box, label="Expr ->.Expr + Expr,#/+/-/*///%/)\nExpr -> Expr +.Expr,#/+/-/*///%/)\nExpr ->.Expr - Expr,#/+/-/*///%/)\nExpr ->.Expr * Expr,#/+/-/*///%/)\nExpr ->.Expr / Expr,#/+/-/*///%/)\nExpr ->.Expr % Expr,#/+/-/*///%/)\nExpr ->.- Expr,#/+/-/*///%/)\nExpr ->.( Expr ),#/+/-/*///%/)\nExpr ->.IntLit,#/+/-/*///%/)"]
+  6 -> 2 [label="-"];
+  6 -> 3 [label="("];
+  6 -> 4 [label="IntLit"];
+  6 -> 13 [label="Expr"];
+  6[shape=box, label="Expr ->.Expr + Expr,#/+/-/*///%/)\nExpr ->.Expr - Expr,#/+/-/*///%/)\nExpr -> Expr -.Expr,#/+/-/*///%/)\nExpr ->.Expr * Expr,#/+/-/*///%/)\nExpr ->.Expr / Expr,#/+/-/*///%/)\nExpr ->.Expr % Expr,#/+/-/*///%/)\nExpr ->.- Expr,#/+/-/*///%/)\nExpr ->.( Expr ),#/+/-/*///%/)\nExpr ->.IntLit,#/+/-/*///%/)"]
+  7 -> 2 [label="-"];
+  7 -> 3 [label="("];
+  7 -> 4 [label="IntLit"];
+  7 -> 14 [label="Expr"];
+  7[shape=box, label="Expr ->.Expr + Expr,#/+/-/*///%/)\nExpr ->.Expr - Expr,#/+/-/*///%/)\nExpr ->.Expr * Expr,#/+/-/*///%/)\nExpr -> Expr *.Expr,#/+/-/*///%/)\nExpr ->.Expr / Expr,#/+/-/*///%/)\nExpr ->.Expr % Expr,#/+/-/*///%/)\nExpr ->.- Expr,#/+/-/*///%/)\nExpr ->.( Expr ),#/+/-/*///%/)\nExpr ->.IntLit,#/+/-/*///%/)"]
+  8 -> 2 [label="-"];
+  8 -> 3 [label="("];
+  8 -> 4 [label="IntLit"];
+  8 -> 15 [label="Expr"];
+  8[shape=box, label="Expr ->.Expr + Expr,#/+/-/*///%/)\nExpr ->.Expr - Expr,#/+/-/*///%/)\nExpr ->.Expr * Expr,#/+/-/*///%/)\nExpr ->.Expr / Expr,#/+/-/*///%/)\nExpr -> Expr /.Expr,#/+/-/*///%/)\nExpr ->.Expr % Expr,#/+/-/*///%/)\nExpr ->.- Expr,#/+/-/*///%/)\nExpr ->.( Expr ),#/+/-/*///%/)\nExpr ->.IntLit,#/+/-/*///%/)"]
+  9 -> 2 [label="-"];
+  9 -> 3 [label="("];
+  9 -> 4 [label="IntLit"];
+  9 -> 16 [label="Expr"];
+  9[shape=box, label="Expr ->.Expr + Expr,#/+/-/*///%/)\nExpr ->.Expr - Expr,#/+/-/*///%/)\nExpr ->.Expr * Expr,#/+/-/*///%/)\nExpr ->.Expr / Expr,#/+/-/*///%/)\nExpr ->.Expr % Expr,#/+/-/*///%/)\nExpr -> Expr %.Expr,#/+/-/*///%/)\nExpr ->.- Expr,#/+/-/*///%/)\nExpr ->.( Expr ),#/+/-/*///%/)\nExpr ->.IntLit,#/+/-/*///%/)"]
+  10 -> 5 [label="+"];
+  10 -> 6 [label="-"];
+  10 -> 7 [label="*"];
+  10 -> 8 [label="/"];
+  10 -> 9 [label="%"];
+  10[shape=box, label="Expr -> Expr.+ Expr,#/+/-/*///%/)\nExpr -> Expr.- Expr,#/+/-/*///%/)\nExpr -> Expr.* Expr,#/+/-/*///%/)\nExpr -> Expr./ Expr,#/+/-/*///%/)\nExpr -> Expr.% Expr,#/+/-/*///%/)\nExpr -> - Expr.,#/+/-/*///%/)"]
+  11 -> 5 [label="+"];
+  11 -> 6 [label="-"];
+  11 -> 7 [label="*"];
+  11 -> 8 [label="/"];
+  11 -> 9 [label="%"];
+  11 -> 17 [label=")"];
+  11[shape=box, label="Expr -> Expr.+ Expr,+/-/*///%/)\nExpr -> Expr.- Expr,+/-/*///%/)\nExpr -> Expr.* Expr,+/-/*///%/)\nExpr -> Expr./ Expr,+/-/*///%/)\nExpr -> Expr.% Expr,+/-/*///%/)\nExpr -> ( Expr.),#/+/-/*///%/)"]
+  12 -> 5 [label="+"];
+  12 -> 6 [label="-"];
+  12 -> 7 [label="*"];
+  12 -> 8 [label="/"];
+  12 -> 9 [label="%"];
+  12[shape=box, label="Expr -> Expr.+ Expr,#/+/-/*///%/)\nExpr -> Expr + Expr.,#/+/-/*///%/)\nExpr -> Expr.- Expr,#/+/-/*///%/)\nExpr -> Expr.* Expr,#/+/-/*///%/)\nExpr -> Expr./ Expr,#/+/-/*///%/)\nExpr -> Expr.% Expr,#/+/-/*///%/)"]
+  13 -> 5 [label="+"];
+  13 -> 6 [label="-"];
+  13 -> 7 [label="*"];
+  13 -> 8 [label="/"];
+  13 -> 9 [label="%"];
+  13[shape=box, label="Expr -> Expr.+ Expr,#/+/-/*///%/)\nExpr -> Expr.- Expr,#/+/-/*///%/)\nExpr -> Expr - Expr.,#/+/-/*///%/)\nExpr -> Expr.* Expr,#/+/-/*///%/)\nExpr -> Expr./ Expr,#/+/-/*///%/)\nExpr -> Expr.% Expr,#/+/-/*///%/)"]
+  14 -> 5 [label="+"];
+  14 -> 6 [label="-"];
+  14 -> 7 [label="*"];
+  14 -> 8 [label="/"];
+  14 -> 9 [label="%"];
+  14[shape=box, label="Expr -> Expr.+ Expr,#/+/-/*///%/)\nExpr -> Expr.- Expr,#/+/-/*///%/)\nExpr -> Expr.* Expr,#/+/-/*///%/)\nExpr -> Expr * Expr.,#/+/-/*///%/)\nExpr -> Expr./ Expr,#/+/-/*///%/)\nExpr -> Expr.% Expr,#/+/-/*///%/)"]
+  15 -> 5 [label="+"];
+  15 -> 6 [label="-"];
+  15 -> 7 [label="*"];
+  15 -> 8 [label="/"];
+  15 -> 9 [label="%"];
+  15[shape=box, label="Expr -> Expr.+ Expr,#/+/-/*///%/)\nExpr -> Expr.- Expr,#/+/-/*///%/)\nExpr -> Expr.* Expr,#/+/-/*///%/)\nExpr -> Expr./ Expr,#/+/-/*///%/)\nExpr -> Expr / Expr.,#/+/-/*///%/)\nExpr -> Expr.% Expr,#/+/-/*///%/)"]
+  16 -> 5 [label="+"];
+  16 -> 6 [label="-"];
+  16 -> 7 [label="*"];
+  16 -> 8 [label="/"];
+  16 -> 9 [label="%"];
+  16[shape=box, label="Expr -> Expr.+ Expr,#/+/-/*///%/)\nExpr -> Expr.- Expr,#/+/-/*///%/)\nExpr -> Expr.* Expr,#/+/-/*///%/)\nExpr -> Expr./ Expr,#/+/-/*///%/)\nExpr -> Expr.% Expr,#/+/-/*///%/)\nExpr -> Expr % Expr.,#/+/-/*///%/)"]
+  17[shape=box, label="Expr -> ( Expr ).,#/+/-/*///%/)"]
+}

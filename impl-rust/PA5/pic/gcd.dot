@@ -1,0 +1,16 @@
+graph g {
+  rankdir = LR;
+
+  _R34 -- _R32; 
+  _R34 -- _R33;
+  _R36 -- _R32;
+  _R33 -- _R36;
+  _R32 -- _R33;
+
+  _R32 [fillcolor=gray, style=filled, shape=circle]
+  _R33 [fillcolor=lightblue, style=filled, shape=circle]
+  _R34 [fillcolor=pink, style=filled, shape=circle]
+  _R36 [fillcolor=pink, style=filled, shape=circle]
+
+  "$v0" [fillcolor=pink, style=filled, shape=circle]
+}
