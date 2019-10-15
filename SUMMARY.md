@@ -8,6 +8,10 @@
     - [词法分析](impl-java/PA1-A/lexer.md)
     - [抽象语法树](impl-java/PA1-A/tree.md)
     - [文法分析](impl-java/PA1-A/parser.md)
+  + PA1-B：基于 LL(1) 的语法分析器半自动构造
+    - [阶段任务](impl-java/PA1-B/index.md)
+    - [LL(1) 文法分析](impl-java/PA1-B/parser.md)
+    - [错误恢复](impl-java/PA1-B/recovery.md)
 * Scala 框架分阶段指导
   + [本章导引](impl-scala/index.md)
   + PA1：语法分析器的自动构造
