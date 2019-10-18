@@ -11,7 +11,7 @@ ll(1)的lexer部分与之前基本一样，不过在`#[lex(TomlOfLexer)]`中的`
 生成的代码包含了lalr(1)版本中的东西，即"两个enum，即`TokenKind`和`StackItem`，两个struct，即`Token`和`Lexer`，并为你希望成为parser的struct提供一个`parse`函数"。此外还有：
 
 1. `u32`常数`NT_NUM`，表示非终结符的数目
-2. 包在`lazy_static!`中的`HashSat<u32>`数组`FOLLOW`，用非终结符编号作下标访问，得到它的follow集合
+2. 包在`lazy_static!`中的`HashSet<u32>`数组`FOLLOW`，用非终结符编号作下标访问，得到它的follow集合
 3. 包在`lazy_static!`中的`HashMap<u32, (u32, Vec<u32>)>`数组`TABLE`，用非终结符编号作下标访问，得到它的预测分析表。预测分析表是一个终结符到`(产生式编号, 产生式右端项内容)`的映射，其中`产生式右端项内容`，即`Vec<u32>`，就是每个右端项的编号
 4. 为你希望成为parser的struct添加了一个`fn act(&mut self, prod: u32, value_stk: Vec<StackItem<'p>>) -> StackItem<'p>`函数，其中`prod`即`产生式编号`，`value_stk`是每个右端项对应的解析结果，返回值为以`value_stk`为参数执行`prod`对应的语法动作后的结果
 
