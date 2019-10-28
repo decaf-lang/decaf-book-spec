@@ -12,6 +12,12 @@
     - [阶段任务](impl-java/PA1-B/index.md)
     - [LL(1) 文法分析](impl-java/PA1-B/parser.md)
     - [错误恢复](impl-java/PA1-B/recovery.md)
+  + PA2：语义分析
+    - [阶段任务](impl-java/PA2/index.md)
+    - [类型、符号和作用域](impl-java/PA2/datatype.md)
+    - [访问者模式](impl-java/PA2/visitor.md)
+    - [符号表构建](impl-java/PA2/table.md)
+    - [类型检查](impl-java/PA2/typecheck.md)
 * Scala 框架分阶段指导
   + [本章导引](impl-scala/index.md)
   + PA1：语法分析器的自动构造
