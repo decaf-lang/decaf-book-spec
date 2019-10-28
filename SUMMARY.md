@@ -26,6 +26,11 @@
     - [抽象语法树](impl-scala/PA1/tree.md)
     - [文法分析](impl-scala/PA1/parser.md)
     - [访问者模式](impl-scala/PA1/visitor.md)
+  + PA2：语义分析
+    - [阶段任务](impl-scala/PA2/index.md)
+    - [类型、符号和作用域](impl-scala/PA2/datatype.md)
+    - [符号表构建](impl-scala/PA2/table.md)
+    - [类型检查](impl-scala/PA2/typecheck.md)
 * Rust 框架分阶段指导
   + [本章导引](impl-rust/index.md)
   + PA1-A：语法分析器的自动构造
