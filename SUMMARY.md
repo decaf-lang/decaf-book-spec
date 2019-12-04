@@ -36,6 +36,11 @@
     - [类型、符号和作用域](impl-scala/PA2/datatype.md)
     - [符号表构建](impl-scala/PA2/table.md)
     - [类型检查](impl-scala/PA2/typecheck.md)
+  + PA3：中间代码生成
+    - [阶段任务](impl-scala/PA3/index.md)
+    - [TAC 程序](impl-java/PA3/TAC.md)
+    - [面向对象机制](impl-java/PA3/oop.md)
+    - [控制流的翻译](impl-scala/PA3/control.md)
 * Rust 框架分阶段指导
   + [本章导引](impl-rust/index.md)
   + PA1-A：语法分析器的自动构造
