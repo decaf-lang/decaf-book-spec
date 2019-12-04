@@ -19,11 +19,10 @@
     - [符号表构建](impl-java/PA2/table.md)
     - [类型检查](impl-java/PA2/typecheck.md)
   + PA3：中间代码生成
-    - [实验内容](impl-java/PA3/实验内容.md)
-    - [TAC简介](impl-java/PA3/TAC简介.md)
-    - [运行时存储布局](impl-java/PA3/运行时存储布局.md)
-    - [面向对象机制](impl-java/PA3/面向对象机制.md)
-    - [Decaf提供的运行时库函数说明](impl-java/PA3/Decaf提供的运行时库函数说明.md)
+    - [阶段任务](impl-java/PA3/index.md)
+    - [TAC 程序](impl-java/PA3/TAC.md)
+    - [面向对象机制](impl-java/PA3/oop.md)
+    - [控制流的翻译](impl-java/PA3/control.md)
 * Scala 框架分阶段指导
   + [本章导引](impl-scala/index.md)
   + PA1：语法分析器的自动构造
