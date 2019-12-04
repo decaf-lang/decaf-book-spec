@@ -14,7 +14,8 @@ case While(cond, body) =>
 然后调用辅助函数 `loop` 完成与循环语义等价的 TAC 指令生成：
 
 ```scala
-private def loop(test: => Temp, block: => Unit, exit: Label)(implicit fv: FuncVisitor): Unit
+private def loop(test: => Temp, block: => Unit, exit: Label)
+                (implicit fv: FuncVisitor): Unit
 ```
 
 注意参数 `test` 和 `block` 都是 by-name parameter。
