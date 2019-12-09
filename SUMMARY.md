@@ -41,6 +41,10 @@
     - [TAC 程序](impl-java/PA3/TAC.md)
     - [面向对象机制](impl-java/PA3/oop.md)
     - [控制流的翻译](impl-scala/PA3/control.md)
+  + PA3-JVM：JVM 字节码生成
+    - [阶段任务](impl-scala/PA3-JVM/index.md)
+    - [JVM 字节码简介](impl-scala/PA3-JVM/JVM.md)
+    - [翻译过程](impl-scala/PA3-JVM/translate.md)
 * Rust 框架分阶段指导
   + [本章导引](impl-rust/index.md)
   + PA1-A：语法分析器的自动构造
