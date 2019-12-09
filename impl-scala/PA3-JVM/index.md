@@ -36,6 +36,6 @@ src
     └── scala
         └── decaf
             └── jvm
-                ├── JVMClass.scala      Class 文件的包装
+                ├── JVMClass.scala      JVM Class 文件的包装
                 ├── JVMGen.scala        代码生成入口
                 └── Util.scala          辅助函数
