@@ -255,3 +255,29 @@ JVM 在调用一个需要 `k` 个参数的函数时，先从栈顶弹出 `k` 个
 
 特别地，对于成员方法，我们需要在本来的参数列表前面加入一个 self 参数传入 this 对象。
 因此，0 号临时变量（若存在）的值总是 this 对象的引用。
+
+## 类型擦除
+
+由于 JVM 不支持泛型，因此高级语言中的泛型在翻译为 JVM 字节码时，需要进行**类型擦除** (type erasure)。
+例如 Java 和 Scala 的编译器都需要在生成 JVM 字节码前进行类型擦除——把泛型参数全部擦掉，并用语言中的“超基类”（Java 的 `java.lang.Object`，Scala 的 `scala.Any`）替代。
+由此，JVM 将无法识别如下所示的重载方法：
+
+```scala
+object test {
+  def foo(x: List[String]): Unit = ???
+  def foo(x: List[(Int, Int)]): Unit = ???
+}
+```
+
+Scala 编译器报错：
+
+```text
+error: double definition:
+  def foo(x: List[String]): Unit at line 2 and
+  def foo(x: List[(Int, Int)]): Unit at line 3
+have same type after erasure: (x: List)Unit
+```
+
+即 `List[T]` 直接被擦除为 `List`，由此在 JVM 中，两个方法的签名都是 `(x: List)Unit`，出现冲突。
+
+目前的 Decaf 暂时不支持泛型，框架中无需进行类型擦除的相关处理。
